@@ -30,6 +30,29 @@ public:
         // TODO: посмотреть, нужно ли что-нибудь в else писать
     }
 
+    // Конструктор копирования
+    shared_ptr(const shared_ptr& original) : ptr_(original.ptr_), count_(original.count_) {
+        if (count_) {
+            ++(*count_);
+        }
+    }
+
+    shared_ptr& operator=(const shared_ptr& other) {
+        if (this == &other) {
+            return *this;
+        }
+
+        cleanup();
+
+        ptr_ = other.ptr_;
+        count_ = other.count_;
+
+        if (count_) {
+            ++(*count_);
+        }
+        return *this;
+    }
+
     ~shared_ptr() {
         cleanup();
     }

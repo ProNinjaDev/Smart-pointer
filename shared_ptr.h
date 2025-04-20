@@ -1,6 +1,10 @@
 #pragma once
 
 #include <cstddef>
+#include <cassert>
+#include <iostream>
+#include <cstdlib> // Для std::abort
+
 
 template <typename T>
 class shared_ptr {
@@ -19,7 +23,6 @@ private:
     }
 
 public:
-    // TODO: Конструкторы, деструктор, операторы
 
     shared_ptr() = default;
 
@@ -27,7 +30,6 @@ public:
         if (ptr_) {
             count_ = new int(1);
         }
-        // TODO: посмотреть, нужно ли что-нибудь в else писать
     }
 
     // Конструктор копирования
@@ -55,5 +57,26 @@ public:
 
     ~shared_ptr() {
         cleanup();
+    }
+
+    // Оператор разыменования
+    T& operator*() const {
+        if (ptr_ == nullptr) {
+            std::cerr << "Attempting to dereference a null shared_ptr!" << std::endl;
+            std::abort();
+        }
+        return *ptr_;
+    }
+
+    T* operator->() const {
+        if (ptr_ == nullptr) {
+            std::cerr << "Attempting to use -> on a null shared_ptr" << std::endl;
+            std::abort();
+        }
+        return ptr_;
+    }
+
+    explicit operator bool() const {
+        return ptr_ != nullptr;
     }
 }; 

@@ -31,36 +31,59 @@ int main() {
     std::cout << "Test 3 finished" << std::endl;
 
     std::cout << "\nTest 4: Copy Constructor" << std::endl;
-    shared_ptr<MyClass> ptr_orig(new MyClass(10));
+    shared_ptr<MyClass> ptrOrig(new MyClass(10));
     {
-        std::cout << "  Entering inner scope for copy..." << std::endl;
-        shared_ptr<MyClass> ptr_copy = ptr_orig;
-        std::cout << "  ptr_copy created." << std::endl;
+        std::cout << "Entering inner scope for copy..." << std::endl;
+        shared_ptr<MyClass> ptrCopy = ptrOrig;
+        std::cout << "ptrCopy created." << std::endl;
     }
     std::cout << "Inner scope exited. Myclass 10 should still exist" << std::endl;
 
     std::cout << "\nTest 5: Copy Assignment" << std::endl;
-    shared_ptr<MyClass> ptr_a(new MyClass(11));
-    shared_ptr<MyClass> ptr_b(new MyClass(12));
-    std::cout << "  Assigning ptr_a = ptr_b" << std::endl;
-    ptr_a = ptr_b;
-    std::cout << "  Assignment done. Myclass 11 should be deleted" << std::endl;
+    shared_ptr<MyClass> ptrA(new MyClass(11));
+    shared_ptr<MyClass> ptrB(new MyClass(12));
+    std::cout << "Assigning ptrA = ptrB" << std::endl;
+    ptrA = ptrB;
+    std::cout << "Assignment done. Myclass 11 should be deleted" << std::endl;
 
 
     std::cout << "\nTest 6: Self-Assignment" << std::endl;
-    shared_ptr<MyClass> ptr_self(new MyClass(13));
-    std::cout << "  Assigning ptr_self = ptr_self" << std::endl;
-    ptr_self = ptr_self; 
-    std::cout << "  Self-assignment done nothing should crash" << std::endl;
+    shared_ptr<MyClass> ptrSelf(new MyClass(13));
+    std::cout << "Assigning ptrSelf = ptrSelf" << std::endl;
+    ptrSelf = ptrSelf;
+    std::cout << "Self-assignment done nothing should crash" << std::endl;
 
 
     std::cout << "\nTest 7: Assigning Null" << std::endl;
-    shared_ptr<MyClass> ptr_to_null(new MyClass(14));
-    shared_ptr<MyClass> ptr_is_null;
-    std::cout << "  Assigning ptr_to_null = ptr_is_null" << std::endl;
-    ptr_to_null = ptr_is_null;
-    std::cout << "  Assigning null done. Myclass 14 should be deleted" << std::endl;
+    shared_ptr<MyClass> ptrToNull(new MyClass(14));
+    shared_ptr<MyClass> ptrIsNull;
+    std::cout << "Assigning ptrToNull = ptrIsNull" << std::endl;
+    ptrToNull = ptrIsNull;
+    std::cout << "Assigning null done. Myclass 14 should be deleted" << std::endl;
     std::cout << "\nAll tests passed" << std::endl;
+
+
+    std::cout << "\nTest 8: Operators *, ->, bool" << std::endl;
+    shared_ptr<MyClass> ptrOps(new MyClass(20));
+
+    if (ptrOps) { 
+        std::cout << "ptrOps is not null" << std::endl;
+        std::cout << "Accessing id via ->: " << ptrOps->id << std::endl;
+        std::cout << "Accessing id via *: " << (*ptrOps).id << std::endl;
+        (*ptrOps).id = 21;
+        std::cout << "Accessing modified id via ->: " << ptrOps->id << std::endl; 
+    } else {
+        std::cout << "ptrOps is null!" << std::endl;
+    }
+
+    shared_ptr<MyClass> ptrNullCheck;
+    if (ptrNullCheck) {
+        std::cout << "ptrNullCheck is not null!" << std::endl;
+    } else {
+        std::cout << "ptrNullCheck is correctly null" << std::endl;
+    }
+
+    std::cout << "\nEnd of operator tests" << std::endl;
 
     return 0;
 } 
